@@ -20,11 +20,10 @@ export async function loginService(req: Request) {
    if (!isPasswordValid) {
       return null;
   }
-  // todo : burada .env içinden çek.
+  const secret = process.env.ACCESS_TOKEN_SECRET as string;
   const accessToken = jwt.sign(
         {mail:user.mail},
-        '5dc64dd78d40d4137bbccf95621bd51aa44477c9d76aced2d2d1d2de540290537b9b778ec7e159d5289d6d55346d350f93f05717f8c2d46a1a263d4f65151758',
-        // process.env.ACCESS_TOKEN_SECRET,
+        secret,
         { expiresIn: '3d' }
     );
   return accessToken
