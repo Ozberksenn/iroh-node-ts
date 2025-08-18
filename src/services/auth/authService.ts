@@ -3,8 +3,6 @@ import { Request } from "express";
 import bcrypt from "bcryptjs";
 import jwt from 'jsonwebtoken';
 
-
-
 export async function loginService(req: Request) {
   const pool = await getDbPool();
   const result = await pool
