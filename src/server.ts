@@ -1,11 +1,14 @@
 import express from 'express';
 import { getDbPool } from './config/db';
 import apiRouter from './routes'
+import dotenv from "dotenv";
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
+dotenv.config();
+
 
 // todo: fonksiyonun içine alıcam. 
 (async () => {
