@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { fetchUsersFromDb } from "../../services/usersService";
+import { fetchUsersFromDb } from "../../services/users/usersService";
 import { successResponse,errorResponse } from "../../utils/responseHandler";
 
 export async function getUsers(req: Request, res: Response) {
