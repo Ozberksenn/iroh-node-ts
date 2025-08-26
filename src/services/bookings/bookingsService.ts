@@ -15,11 +15,16 @@ export interface Bookings {
   endTime : Date;
   startDate : Date;
   endDate : Date;
-  status : boolean
 }
 
 export async function getBookingsService(): Promise<Bookings[]>{
     const pool = await getDbPool();
     const result = await pool.request().query('SELECT * FROM vw_Bookings');
     return result.recordset as Bookings[];
+}
+
+export async function getBookingStatusesService(): Promise<any[]>{
+    const pool = await getDbPool();
+    const result = await pool.request().query('SELECT * FROM vw_BookingStatuses');
+    return result.recordset as any[];
 }
