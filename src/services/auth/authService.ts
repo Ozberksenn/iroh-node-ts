@@ -22,7 +22,7 @@ export async function loginService(req: Request,res:Response) {
   const accessToken = jwt.sign(
         {mail:user.mail},
         access,
-        { expiresIn: '20M' }
+        { expiresIn: '24h' }
     );
   const refresh = process.env.REFRESH_TOKEN_SECRET as string;   
   const refreshToken = jwt.sign(
@@ -50,7 +50,7 @@ export async function refreshTokenService(refreshToken: string) {
     const accessToken = jwt.sign(
       { mail: user.mail },
       process.env.ACCESS_TOKEN_SECRET as string,
-      { expiresIn: "15m" }
+      { expiresIn: "24h" }
     );
 
     return { accessToken };
