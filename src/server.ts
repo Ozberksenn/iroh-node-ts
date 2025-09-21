@@ -6,9 +6,9 @@ import cors from 'cors';
 import cookieParser from "cookie-parser";
 const app = express();
 app.use(cors({
-    origin: '*',
+    origin: ['https://fedf697c8201.ngrok-free.app','http://localhost:8080','http://localhost:5173'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization','ngrok-skip-browser-warning']
   }));
 const PORT = 8080;
 app.use(express.json());
