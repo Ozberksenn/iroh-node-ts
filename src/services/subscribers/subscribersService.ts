@@ -23,3 +23,7 @@ export async function getSubscribersService(): Promise<Subscriber[]>{
     console.log(result)
     return result.recordset as Subscriber[];
 }
+
+// export async function insertSubscribeService(): Promise<Subscriber>{
+//   const pool = await getDbPool();
+// }
