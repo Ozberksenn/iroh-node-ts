@@ -5,6 +5,7 @@ import subscriberRouters from './subscriber';
 import bookingsRouters from './bookings' 
 import customersRouters from './customers'
 import tablesRouters from './tables'
+import companiesRouters from './companies'
  
 const router = Router();
 
@@ -14,5 +15,6 @@ router.use('/subscriber', subscriberRouters);
 router.use('/bookings', bookingsRouters);
 router.use('/customers', customersRouters);
 router.use('/tables', tablesRouters);
+router.use('/companies', companiesRouters);
 
 export default router;
