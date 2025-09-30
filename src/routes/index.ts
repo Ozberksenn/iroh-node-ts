@@ -6,6 +6,7 @@ import bookingsRouters from './bookings'
 import customersRouters from './customers'
 import tablesRouters from './tables'
 import companiesRouters from './companies'
+import purchasesRouters from './purchases'
  
 const router = Router();
 
@@ -16,5 +17,6 @@ router.use('/bookings', bookingsRouters);
 router.use('/customers', customersRouters);
 router.use('/tables', tablesRouters);
 router.use('/companies', companiesRouters);
+router.use('/purchases', purchasesRouters);
 
 export default router;

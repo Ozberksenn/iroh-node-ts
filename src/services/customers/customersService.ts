@@ -11,16 +11,15 @@ export interface Customer {
   parentPhone: string;
   parentMail: string;
   startDate: Date;
-  endDate: Date | null; 
+  endDate: Date | null;
   purchasedHours: number;
   usedHours: number;
   isActive: boolean;
 }
 
-export async function getCustomersService(): Promise<Customer[]>{
-    const pool = await getDbPool();
-    const result = await pool.request().query('SELECT * FROM vw_Customers');
-    console.log(result)
-    return result.recordset as Customer[];
+export async function getCustomersService(): Promise<Customer[]> {
+  const pool = await getDbPool();
+  const result = await pool.request().query('SELECT * FROM vw_Customers');
+  return result.recordset as Customer[];
 }
 
