@@ -1,21 +1,6 @@
 import { getDbPool } from "../../config/db";
+import { Customer } from "../../types/customer";
 
-export interface Customer {
-  id: number;
-  name: string;
-  lastName: string;
-  parentName: string;
-  parentLastName: string;
-  phone: string;
-  mail: string;
-  parentPhone: string;
-  parentMail: string;
-  startDate: Date;
-  endDate: Date | null;
-  purchasedHours: number;
-  usedHours: number;
-  isActive: boolean;
-}
 
 export async function getCustomersService(): Promise<Customer[]> {
   const pool = await getDbPool();
@@ -23,3 +8,18 @@ export async function getCustomersService(): Promise<Customer[]> {
   return result.recordset as Customer[];
 }
 
+export async function insertCustomerService(data: Customer): Promise<Customer> {
+  const pool = await getDbPool();
+  const result = await pool
+    .request()
+    .input("name", data.name)
+    .input("lastName", data.lastName)
+    .input("parentName", data.parentName)
+    .input("parentLastName", data.parentLastName)
+    .input("phone", data.phone)
+    .input("mail", data.mail)
+    .input("parentPhone", data.parentPhone)
+    .input("parentMail", data.parentMail)
+    .execute('usp_InsertCustomer');
+  return result.recordset[0];
+}

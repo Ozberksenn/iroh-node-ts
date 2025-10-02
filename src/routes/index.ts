@@ -14,7 +14,7 @@ router.use('/users', usersRouter);
 router.use('/auth', authRouters);
 router.use('/subscriber', subscriberRouters);
 router.use('/bookings', bookingsRouters);
-router.use('/customers', customersRouters);
+router.use('/', customersRouters);
 router.use('/tables', tablesRouters);
 router.use('/companies', companiesRouters);
 router.use('/purchases', purchasesRouters);
