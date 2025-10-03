@@ -12,7 +12,7 @@ const router = Router();
 
 router.use('/users', usersRouter);
 router.use('/auth', authRouters);
-router.use('/subscriber', subscriberRouters);
+router.use('/', subscriberRouters);
 router.use('/bookings', bookingsRouters);
 router.use('/', customersRouters);
 router.use('/', tablesRouters);
