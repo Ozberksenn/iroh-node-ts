@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { errorResponse, successResponse } from "../../utils/responseHandler";
-import { insertBookingLogService } from "../../services/bookings/bookingLogsService";
+import { insertBookingLogService } from "../../services/bookings/bookingLogService";
 import { BookingLog } from "../../types/booking";
 
 export async function insertBookingLog(req: Request, res: Response) {
