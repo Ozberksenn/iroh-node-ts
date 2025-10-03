@@ -7,3 +7,12 @@ export interface Booking {
   status: number;
   price: number;
 }
+
+
+export interface BookingLog {
+  id: number;
+  bookingId : number;
+  time : Date;
+  type : number;
+  userId : number;
+}
