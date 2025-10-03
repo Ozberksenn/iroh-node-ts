@@ -1,7 +1,17 @@
 import { Request, Response } from "express";
 import { errorResponse, successResponse } from "../../utils/responseHandler";
-import { insertBookingLogService } from "../../services/bookings/bookingLogService";
+import { getBookingLogsService, insertBookingLogService } from "../../services/bookings/bookingLogService";
 import { BookingLog } from "../../types/booking";
+
+export async function getBookingLogs(req: Request, res: Response){
+    try {
+           const result = await getBookingLogsService();
+           res.json(successResponse(result,'success'));
+    } catch (err: any) {
+           res.status(500).json(errorResponse(err.message, "error"));
+    }
+}
+
 
 export async function insertBookingLog(req: Request, res: Response) {
        try {
