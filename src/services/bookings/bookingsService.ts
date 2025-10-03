@@ -2,16 +2,32 @@ import { getDbPool } from "../../config/db";
 import { Booking } from "../../types/booking";
 
 
-export async function getBookingsService(): Promise<Booking[]>{
-    const pool = await getDbPool();
-    const result = await pool.request().query('SELECT * FROM vw_Bookings');
-    return result.recordset as Booking[];
+export async function getBookingsService(): Promise<Booking[]> {
+  const pool = await getDbPool();
+  const result = await pool.request().query('SELECT * FROM vw_Bookings');
+  return result.recordset as Booking[];
 }
 
-export async function getBookingStatusesService(): Promise<any[]>{
-    const pool = await getDbPool();
-    const result = await pool.request().query('SELECT * FROM vw_BookingStatuses');
-    return result.recordset as any[];
+export async function getBookingStatusesService(): Promise<any[]> {
+  const pool = await getDbPool();
+  const result = await pool.request().query('SELECT * FROM vw_BookingStatuses');
+  return result.recordset as any[];
+}
+
+
+export async function insertBookingService(data: Booking): Promise<Booking> {
+  const pool = await getDbPool();
+  const result = await pool
+    .request()
+    .input("table", data.table)
+    .input("subscriberId", data.subscriberId)
+    .input("startTime", data.startTime)
+    .input("endTime", data.endTime)
+    .input("status", data.status)
+    .input("price", data.price)
+    .input("customerId", data.customerId)
+    .execute('usp_InsertBooking');
+  return result.recordset[0];
 }
 
 export async function insertBookingStatusService(data: any): Promise<any> {

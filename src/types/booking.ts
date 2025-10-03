@@ -6,6 +6,7 @@ export interface Booking {
   endTime : Date;
   status: number;
   price: number;
+  customerId: number;
 }
 
 
