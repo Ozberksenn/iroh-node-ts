@@ -15,7 +15,7 @@ router.use('/auth', authRouters);
 router.use('/subscriber', subscriberRouters);
 router.use('/bookings', bookingsRouters);
 router.use('/', customersRouters);
-router.use('/tables', tablesRouters);
+router.use('/', tablesRouters);
 router.use('/companies', companiesRouters);
 router.use('/purchases', purchasesRouters);
 

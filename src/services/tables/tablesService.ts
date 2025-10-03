@@ -1,9 +1,6 @@
 import { getDbPool } from "../../config/db";
+import { Table } from "../../types/table";
 
-export interface Table {
-  id: number;
-  name: string;
-}
 
 export async function getTablesService(): Promise<Table[]>{
     const pool = await getDbPool();
@@ -12,3 +9,11 @@ export async function getTablesService(): Promise<Table[]>{
     return result.recordset as Table[];
 }
 
+export async function insertTableService(data: Table): Promise<Table> {
+  const pool = await getDbPool();
+  const result = await pool
+    .request()
+    .input("name", data.name)
+    .execute('usp_InsertTable');
+  return result.recordset[0];
+}
