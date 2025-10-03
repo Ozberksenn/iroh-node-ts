@@ -13,7 +13,7 @@ const router = Router();
 router.use('/users', usersRouter);
 router.use('/auth', authRouters);
 router.use('/', subscriberRouters);
-router.use('/bookings', bookingsRouters);
+router.use('/', bookingsRouters);
 router.use('/', customersRouters);
 router.use('/', tablesRouters);
 router.use('/companies', companiesRouters);
