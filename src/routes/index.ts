@@ -17,6 +17,6 @@ router.use('/bookings', bookingsRouters);
 router.use('/', customersRouters);
 router.use('/', tablesRouters);
 router.use('/companies', companiesRouters);
-router.use('/purchases', purchasesRouters);
+router.use('/', purchasesRouters);
 
 export default router;
