@@ -44,3 +44,4 @@ export async function insertBookingStatus(req: Request, res: Response) {
               res.status(500).json(errorResponse(err.message, "error"));
        }
 }
+

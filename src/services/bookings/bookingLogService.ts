@@ -20,3 +20,14 @@ export async function insertBookingLogService(data: BookingLog): Promise<Booking
     .execute('usp_InsertBookingLog');
   return result.recordset[0];
 }
+
+export async function insertLogTypeService(data: any): Promise<any> {
+  const pool = await getDbPool();
+  const result = await pool
+    .request()
+    .input("name", data.name)
+    .execute('usp_LogType');
+  return result.recordset[0];
+}
+
+

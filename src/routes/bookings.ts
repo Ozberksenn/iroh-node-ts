@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { getBookings, getBookingStatuses, insertBooking, insertBookingStatus } from "../controllers/bookings/bookingsController";
 import { authMiddleware } from "../middlewares/auth_middleware";
-import { getBookingLogs, insertBookingLog } from "../controllers/bookings/bookingLogController";
+import { getBookingLogs, insertBookingLog, insertLogType } from "../controllers/bookings/bookingLogController";
 const router = Router();
 
 router.get('/bookings', authMiddleware, getBookings);
@@ -10,6 +10,7 @@ router.get('/booking-logs', getBookingLogs);
 router.post('/booking-insert', insertBooking);
 router.post('/booking-status-insert', insertBookingStatus);
 router.post('/booking-log-insert', insertBookingLog);
+router.post('/log-type', insertLogType);
 
 
 export default router;
