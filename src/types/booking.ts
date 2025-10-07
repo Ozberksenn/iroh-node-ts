@@ -1,7 +1,6 @@
 export interface Booking {
   id: number;
-  table : string;
-  subscriberId : number;
+  tableId : number;
   startTime : Date;
   endTime : Date;
   status: number;

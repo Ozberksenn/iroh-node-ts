@@ -17,3 +17,14 @@ export async function insertTableService(data: Table): Promise<Table> {
     .execute('usp_InsertTable');
   return result.recordset[0];
 }
+
+
+export async function updateTableService(data: Table): Promise<Table> {
+  const pool = await getDbPool();
+  const result = await pool
+    .request()
+    .input("id", data.id)
+    .input("name", data.name)
+    .execute('usp_UpdateTable');
+  return result.recordset[0];
+}

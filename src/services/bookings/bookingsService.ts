@@ -19,8 +19,7 @@ export async function insertBookingService(data: Booking): Promise<Booking> {
   const pool = await getDbPool();
   const result = await pool
     .request()
-    .input("table", data.table)
-    .input("subscriberId", data.subscriberId)
+    .input("tableId", data.tableId)
     .input("startTime", data.startTime)
     .input("endTime", data.endTime)
     .input("status", data.status)
@@ -30,6 +29,23 @@ export async function insertBookingService(data: Booking): Promise<Booking> {
   return result.recordset[0];
 }
 
+export async function updateBookingService(data: Booking): Promise<Booking> {
+  const pool = await getDbPool();
+  const result = await pool
+    .request()
+    .input("id", data.id)
+    .input("tableId", data.tableId)
+    .input("startTime", data.startTime)
+    .input("endTime", data.endTime)
+    .input("status", data.status)
+    .input("price", data.price)
+    .input("customerId", data.customerId)
+    .execute('usp_UpdateBooking');
+  return result.recordset[0];
+}
+
+// Booking Status Services -------------------------------
+
 export async function insertBookingStatusService(data: any): Promise<any> {
   const pool = await getDbPool();
   const result = await pool
@@ -38,3 +54,5 @@ export async function insertBookingStatusService(data: any): Promise<any> {
     .execute('usp_InsertBookingStatus');
   return result.recordset[0];
 }
+
+
