@@ -23,3 +23,20 @@ export async function insertCustomerService(data: Customer): Promise<Customer> {
     .execute('usp_InsertCustomer');
   return result.recordset[0];
 }
+
+export async function updateCustomerService(data: Customer): Promise<Customer> {
+  const pool = await getDbPool();
+  const result = await pool
+    .request()
+    .input("id", data.id)
+    .input("name", data.name)
+    .input("lastName", data.lastName)
+    .input("parentName", data.parentName)
+    .input("parentLastName", data.parentLastName)
+    .input("phone", data.phone)
+    .input("mail", data.mail)
+    .input("parentPhone", data.parentPhone)
+    .input("parentMail", data.parentMail)
+    .execute('usp_UpdateCustomer');
+  return result.recordset[0];
+}
