@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getBookingsService, getBookingStatusesService, insertBookingService, insertBookingStatusService, updateBookingService } from "../../services/bookings/bookingsService";
+import { getBookingsService, getBookingStatusesService, insertBookingService, insertBookingStatusService, updateBookingService, updateBookingStatusService } from "../../services/bookings/bookingsService";
 import { errorResponse, successResponse } from "../../utils/responseHandler";
 import { Booking } from "../../types/booking";
 
@@ -57,3 +57,14 @@ export async function insertBookingStatus(req: Request, res: Response) {
        }
 }
 
+export async function updateBookingStatus(req: Request, res: Response) {
+       try {
+              const data: any = req.body;
+
+              const result = await updateBookingStatusService(data);
+
+              res.json(successResponse(result, 'success'));
+       } catch (err: any) {
+              res.status(500).json(errorResponse(err.message, "error"));
+       }
+}
