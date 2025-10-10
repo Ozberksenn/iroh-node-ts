@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { authMiddleware } from "../middlewares/auth_middleware";
-import { getCompanies } from "../controllers/companies/companiesController";
+import { getCompanies, updateCompany } from "../controllers/companies/companiesController";
 const router = Router();
 
- router.get('/',authMiddleware,getCompanies);
-
+router.get('/companies', authMiddleware, getCompanies);
+router.put('/company-update', authMiddleware, updateCompany);
 
 export default router;

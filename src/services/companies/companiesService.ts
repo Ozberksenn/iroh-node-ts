@@ -1,11 +1,6 @@
 import { getDbPool } from "../../config/db";
+import { Company } from "../../types/company";
 
-export interface Company {
-  id: number;
-  name: string;
-  firstHourPrice: number;
-  additionalHourPrice: number;
-}
 
 export async function getCompaniesService(): Promise<Company[]>{
     const pool = await getDbPool();
@@ -14,3 +9,15 @@ export async function getCompaniesService(): Promise<Company[]>{
     return result.recordset as Company[];
 }
 
+
+export async function updateCompanyService(data: Company): Promise<Company> {
+  const pool = await getDbPool();
+  const result = await pool
+    .request()
+    .input("id", data.id)
+    .input("name", data.name)
+    .input("firstHourPrice", data.firstHourPrice)
+    .input("additionalHalfHourPrice", data.additionalHourPrice)
+    .execute('usp_UpdateCompany');
+  return result.recordset[0];
+}
