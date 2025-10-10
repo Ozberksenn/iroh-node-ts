@@ -3,7 +3,7 @@ export interface Purchase {
     id: number;
     hours: number;
     price: number;
-    subscriberId: number;
+    customerId: number;
     startDate: Date;
     endDate: Date | null;
     purchasedHours: number;
