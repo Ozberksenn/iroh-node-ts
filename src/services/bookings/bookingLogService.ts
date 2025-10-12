@@ -44,4 +44,12 @@ export async function updateBookingLogService(data: BookingLog): Promise<Booking
 }
 
 
-
+export async function updateLogTypeService(data: any): Promise<any> {
+  const pool = await getDbPool();
+  const result = await pool
+    .request()
+    .input("id", data.id)
+    .input("name", data.name)
+    .execute('usp_UpdateLogType');
+  return result.recordset[0];
+}
