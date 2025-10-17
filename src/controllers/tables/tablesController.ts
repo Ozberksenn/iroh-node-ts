@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { errorResponse, successResponse } from "../../utils/responseHandler";
-import { getTablesService, insertTableService, updateTableService } from "../../services/tables/tablesService";
+import { deleteTableService, getTablesService, insertTableService, updateTableService } from "../../services/tables/tablesService";
 import { Table } from "../../types/table";
 
 export async function getTables(req: Request, res: Response) {
@@ -29,6 +29,18 @@ export async function updateTable(req: Request, res: Response) {
               const data: Table = req.body;
 
               const result = await updateTableService(data);
+
+              res.json(successResponse(result, 'success'));
+       } catch (err: any) {
+              res.status(500).json(errorResponse(err.message, "error"));
+       }
+}
+
+export async function deleteTable(req: Request, res: Response) {
+       try {
+              const data: Table = req.body;
+
+              const result = await deleteTableService(data);
 
               res.json(successResponse(result, 'success'));
        } catch (err: any) {
