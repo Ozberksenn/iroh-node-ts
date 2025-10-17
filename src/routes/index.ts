@@ -10,7 +10,7 @@ import purchasesRouters from './purchases'
 const router = Router();
 
 router.use('/users', usersRouter);
-router.use('/auth', authRouters);
+router.use('/', authRouters);
 router.use('/', bookingsRouters);
 router.use('/', customersRouters);
 router.use('/', tablesRouters);
