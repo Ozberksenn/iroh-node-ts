@@ -5,7 +5,7 @@ const router = Router();
 
 router.get('/tables', authMiddleware, getTables);
 router.post('/table-insert', authMiddleware, insertTable);
-router.post('/table-update', authMiddleware, updateTable);
+router.put('/table-update', authMiddleware, updateTable);
 
 
 export default router;
