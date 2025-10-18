@@ -32,15 +32,15 @@ export async function loginService(req: Request, res: Response) {
   );
   // Cookie’ye refresh token yaz
   res.cookie("refreshToken", refreshToken, {
-    httpOnly: true,   
-    secure: true,     
-    sameSite: "strict", 
-    maxAge: 7 * 24 * 60 * 60 * 1000 
+    httpOnly: true,
+    secure: true,
+    sameSite: "strict",
+    maxAge: 7 * 24 * 60 * 60 * 1000
   });
   const expiresIn = 24 * 60 * 60
   const refreshExpiresIn = 7 * 24 * 60 * 60
 
-  return { accessToken,refreshToken,expiresIn: expiresIn, refreshExpiresIn: refreshExpiresIn };
+  return { accessToken, refreshToken, expiresIn: expiresIn, refreshExpiresIn: refreshExpiresIn };
 }
 
 export async function refreshTokenService(refreshToken: string) {
@@ -56,7 +56,7 @@ export async function refreshTokenService(refreshToken: string) {
       { expiresIn: "24h" }
     );
 
-    return { accessToken };
+    return {accessToken, refreshToken, expiresIn: 24 * 60 * 60,refreshExpiresIn: 7 * 24 * 60 * 60};
   } catch (err) {
     return null;
   }

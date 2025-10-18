@@ -36,3 +36,12 @@ export async function updatePurchaseService(data: Purchase): Promise<Purchase> {
     .execute('usp_UpdatePurchase');
   return result.recordset[0];
 }
+
+export async function deletePurchaseService(data: Purchase): Promise<Purchase> {
+  const pool = await getDbPool();
+  const result = await pool
+    .request()
+    .input("id", data.id)
+    .execute('usp_DeletePurchase');
+  return result.recordset[0];
+}

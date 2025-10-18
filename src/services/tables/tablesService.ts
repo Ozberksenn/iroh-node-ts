@@ -28,11 +28,11 @@ export async function updateTableService(data: Table): Promise<Table> {
   return result.recordset[0];
 }
 
-export async function deleteTableService(data: Table): Promise<boolean> {
+export async function deleteTableService(data: Table): Promise<Table> {
   const pool = await getDbPool();
   const result = await pool
     .request()
     .input("id", data.id)
     .execute('usp_DeleteTable');
-  return true;
+  return result.recordset[0];
 }
