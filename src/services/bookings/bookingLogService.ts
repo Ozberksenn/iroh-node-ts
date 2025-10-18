@@ -21,14 +21,7 @@ export async function insertBookingLogService(data: BookingLog): Promise<Booking
   return result.recordset[0];
 }
 
-export async function insertLogTypeService(data: any): Promise<any> {
-  const pool = await getDbPool();
-  const result = await pool
-    .request()
-    .input("name", data.name)
-    .execute('usp_LogType');
-  return result.recordset[0];
-}
+
 
 export async function updateBookingLogService(data: BookingLog): Promise<BookingLog> {
   const pool = await getDbPool();
@@ -40,16 +33,5 @@ export async function updateBookingLogService(data: BookingLog): Promise<Booking
     .input("type", data.type)
     .input("userId", data.userId)
     .execute('usp_UpdateBookingLog');
-  return result.recordset[0];
-}
-
-
-export async function updateLogTypeService(data: any): Promise<any> {
-  const pool = await getDbPool();
-  const result = await pool
-    .request()
-    .input("id", data.id)
-    .input("name", data.name)
-    .execute('usp_UpdateLogType');
   return result.recordset[0];
 }
