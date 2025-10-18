@@ -27,17 +27,20 @@ export async function loginService(req: Request, res: Response) {
   const refresh = process.env.REFRESH_TOKEN_SECRET as string;
   const refreshToken = jwt.sign(
     { mail: user.mail },
-    refresh
+    refresh,
+    { expiresIn: '7d' }
   );
   // Cookie’ye refresh token yaz
   res.cookie("refreshToken", refreshToken, {
-    httpOnly: true,   // JS erişemez (XSS koruması)
-    secure: true,     // sadece HTTPS
-    sameSite: "strict", // CSRF koruması
-    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 gün
+    httpOnly: true,   
+    secure: true,     
+    sameSite: "strict", 
+    maxAge: 7 * 24 * 60 * 60 * 1000 
   });
+  const expiresIn = 24 * 60 * 60
+  const refreshExpiresIn = 7 * 24 * 60 * 60
 
-  return { accessToken };
+  return { accessToken,refreshToken,expiresIn: expiresIn, refreshExpiresIn: refreshExpiresIn };
 }
 
 export async function refreshTokenService(refreshToken: string) {
