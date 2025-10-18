@@ -40,3 +40,12 @@ export async function updateCustomerService(data: Customer): Promise<Customer> {
     .execute('usp_UpdateCustomer');
   return result.recordset[0];
 }
+
+export async function deleteCustomerService(data: Customer): Promise<Customer> {
+  const pool = await getDbPool();
+  const result = await pool
+    .request()
+    .input("id", data.id)
+    .execute('usp_DeleteCustomer');
+  return result.recordset[0];
+}
