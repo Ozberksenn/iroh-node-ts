@@ -8,6 +8,12 @@ export async function getPurchasesService(): Promise<Purchase[]> {
     return result.recordset as Purchase[];
 }
 
+export async function getPurchaseByIdService(id:number): Promise<Purchase[]> {
+    const pool = await getDbPool();
+    const result = await pool.request().input("id",id).execute('usp_GetPurchaseById');
+    return result.recordset as Purchase[];
+}
+
 export async function insertPurchaseService(data: Purchase): Promise<Purchase> {
   const pool = await getDbPool();
   const result = await pool
