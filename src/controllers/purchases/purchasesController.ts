@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { errorResponse, successResponse } from "../../utils/responseHandler";
-import { deletePurchaseService, getPurchaseByIdService, getPurchasesService, insertPurchaseService, updatePurchaseService } from "../../services/purchases/purchasesService";
+import { deletePurchaseService, getPurchaseByCustomerIdService , getPurchasesService, insertPurchaseService, updatePurchaseService } from "../../services/purchases/purchasesService";
 import { Purchase } from "../../types/purchase";
 
 export async function getPurchases(req: Request, res: Response) {
@@ -12,10 +12,10 @@ export async function getPurchases(req: Request, res: Response) {
        }
 }
 
-export async function getPurchasesById(req: Request, res: Response) {
+export async function getPurchasesByCustomerId(req: Request, res: Response) {
        try {
-              const id = req.query.id;
-              const result = await getPurchaseByIdService(Number(id));
+              const customerId = req.query.customerId;
+              const result = await getPurchaseByCustomerIdService(Number(customerId));
               res.json(successResponse(result, 'success'));
        } catch (err:any) {
               res.status(500).json(errorResponse(err.message, "error"));
