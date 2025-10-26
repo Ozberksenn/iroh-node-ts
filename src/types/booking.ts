@@ -1,11 +1,12 @@
 export interface Booking {
   id: number;
-  tableId : number;
+  tableId? : number;
   startTime : Date;
   endTime : Date;
   status: number;
   price: number;
-  customerId: number;
+  customerId?: number;
+  note?: string;
 }
 
 
