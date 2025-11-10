@@ -1,11 +1,13 @@
 import { Router } from "express";
 import { authMiddleware } from "../middlewares/auth_middleware";
 import { getBookingLogs, insertBookingLog, updateBookingLog } from "../controllers/bookings/bookingLogController";
-import { getBookings, insertBooking, updateBooking } from "../controllers/bookings/bookingsController";
+import { getActiveBookings, getBookings, insertBooking, updateBooking } from "../controllers/bookings/bookingsController";
+import { get } from "http";
 
 const router = Router();
 
 router.get('/bookings', authMiddleware, getBookings);
+router.get('/active-bookings', authMiddleware, getActiveBookings);
 router.get('/booking-logs', getBookingLogs);
 router.post('/booking-insert', insertBooking);
 router.put('/booking-update', updateBooking);
