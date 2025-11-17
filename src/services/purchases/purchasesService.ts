@@ -23,7 +23,6 @@ export async function insertPurchaseService(data: Purchase): Promise<Purchase> {
     .input("customerId", data.customerId)
     .input("startDate", data.startDate)
     .input("endDate", data.endDate)
-    .input("usedHours", data.usedHours)
     .execute('usp_InsertPurchase');
   return result.recordset[0];
 }
@@ -38,7 +37,6 @@ export async function updatePurchaseService(data: Purchase): Promise<Purchase> {
     .input("customerId", data.customerId)
     .input("startDate", data.startDate)
     .input("endDate", data.endDate)
-    .input("usedHours", data.usedHours)
     .execute('usp_UpdatePurchase');
   return result.recordset[0];
 }

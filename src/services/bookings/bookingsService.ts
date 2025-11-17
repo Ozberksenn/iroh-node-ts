@@ -11,14 +11,23 @@ export async function getBookingsService(): Promise<Booking[]> {
 export async function getActiveBookingsService(): Promise<Booking[]> {
   const pool = await getDbPool();
   const result = await pool.request().query('SELECT * FROM vw_ActiveBookings');
-  
-  return result.recordset.map(r => ({
-    ...r,
-    table: typeof r.table === "string" ? JSON.parse(r.table) : r.table,
-    customer: typeof r.customer === "string" ? JSON.parse(r.customer) : r.customer,
-  }));
-}
 
+  return result.recordset.map(r => {
+    const table = typeof r.table === "string" ? JSON.parse(r.table) : r.table;
+
+    const customer = typeof r.customer === "string" ? JSON.parse(r.customer) : r.customer;
+
+    if (customer && customer.activePurchase && typeof customer.activePurchase === "string") {
+      customer.activePurchase = JSON.parse(customer.activePurchase);
+    }
+
+    return {
+      ...r,
+      table,
+      customer
+    };
+  });
+}
 export async function insertBookingService(data: Booking): Promise<Booking> {
   const pool = await getDbPool();
   const result = await pool

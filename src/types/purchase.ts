@@ -7,5 +7,4 @@ export interface Purchase {
     startDate: Date;
     endDate: Date | null;
     purchasedHours: number;
-    usedHours: number;
 }
