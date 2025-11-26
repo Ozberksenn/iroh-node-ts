@@ -20,13 +20,13 @@ export async function loginService(req: Request, res: Response) {
   }
   const access = process.env.ACCESS_TOKEN_SECRET as string;
   const accessToken = jwt.sign(
-    { mail: user.mail },
+    { mail: user.mail, id: user.id },
     access,
     { expiresIn: '24h' }
   );
   const refresh = process.env.REFRESH_TOKEN_SECRET as string;
   const refreshToken = jwt.sign(
-    { mail: user.mail },
+    { mail: user.mail, id: user.id },
     refresh,
     { expiresIn: '7d' }
   );
@@ -51,12 +51,12 @@ export async function refreshTokenService(refreshToken: string) {
     const refresh = process.env.REFRESH_TOKEN_SECRET as string;
     const user = jwt.verify(refreshToken, refresh) as any;
     const accessToken = jwt.sign(
-      { mail: user.mail },
+      { mail: user.mail, id: user.id },
       process.env.ACCESS_TOKEN_SECRET as string,
       { expiresIn: "24h" }
     );
 
-    return {accessToken, refreshToken, expiresIn: 24 * 60 * 60,refreshExpiresIn: 7 * 24 * 60 * 60};
+    return { accessToken, refreshToken, expiresIn: 24 * 60 * 60, refreshExpiresIn: 7 * 24 * 60 * 60 };
   } catch (err) {
     return null;
   }

@@ -21,10 +21,13 @@ export async function getActiveBookingsService(): Promise<Booking[]> {
       customer.activePurchase = JSON.parse(customer.activePurchase);
     }
 
+    const logs = typeof r.logs === "string" ? JSON.parse(r.logs) : r.logs;
+
     return {
       ...r,
       table,
-      customer
+      customer,
+      logs
     };
   });
 }
@@ -38,7 +41,7 @@ export async function insertBookingService(data: Booking): Promise<Booking> {
     .input("status", data.status)
     .input("price", data.price)
     .input("customerId", data.customerId)
-     .input("note", data.note)
+    .input("note", data.note)
     .execute('usp_InsertBooking');
   return result.recordset[0];
 }

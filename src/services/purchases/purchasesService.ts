@@ -33,7 +33,7 @@ export async function updatePurchaseService(data: Purchase): Promise<Purchase> {
     .request()
     .input("id", data.id)
     .input("hours", data.hours)
-    .input("price", data.price)
+    .input("price", data.price) 
     .input("customerId", data.customerId)
     .input("startDate", data.startDate)
     .input("endDate", data.endDate)
