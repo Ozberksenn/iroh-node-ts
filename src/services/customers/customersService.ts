@@ -2,9 +2,9 @@ import { getDbPool } from "../../config/db";
 import { Customer } from "../../types/customer";
 
 
-export async function getCustomersService(): Promise<Customer[]> {
+export async function getCustomersService(status?: 'Customer' | 'Subscriber' | 'ActiveSubscriber'): Promise<Customer[]> {
   const pool = await getDbPool();
-  const result = await pool.request().query('SELECT * FROM vw_Customers');
+  const result = await pool.request().input("status", status).execute('usp_GetCustomers');
   return result.recordset as Customer[];
 }
 

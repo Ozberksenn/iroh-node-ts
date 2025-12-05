@@ -4,8 +4,21 @@ import { deleteCustomerService, getCustomersService, insertCustomerService, upda
 import { Customer } from "../../types/customer";
 
 export async function getCustomers(req: Request, res: Response) {
+       // gelen tip kontrolü yap!!
+       type CustomerStatus = "Customer" | "Subscriber" | "ActiveSubscriber" | undefined;
+       function isCustomerStatus(value: any): value is CustomerStatus {
+              return ["Customer", "Subscriber", "ActiveSubscriber",undefined].includes(value);
+       }
+       const status = req.query.status;
+
+       if (!isCustomerStatus(status)) {
+              return res
+                     .status(400)
+                     .json(errorResponse("Invalid status value", "error"));
+       }
+
        try {
-              const result = await getCustomersService();
+              const result = await getCustomersService(status);
               res.json(successResponse(result, 'success'));
        } catch (err: any) {
               res.status(500).json(errorResponse(err.message, "error"));
