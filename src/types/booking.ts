@@ -7,6 +7,7 @@ export interface Booking {
   price: number;
   customerId?: number;
   note?: string;
+  purchaseId?:number;
 }
 
 

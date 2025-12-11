@@ -58,6 +58,7 @@ export async function updateBookingService(data: Booking): Promise<Booking> {
     .input("price", data.price)
     .input("customerId", data.customerId)
     .input("note", data.note)
+    .input("purchaseId",data.purchaseId)
     .execute('usp_UpdateBooking');
   return result.recordset[0];
 }
