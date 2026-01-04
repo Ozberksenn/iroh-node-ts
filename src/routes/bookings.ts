@@ -2,7 +2,6 @@ import { Router } from "express";
 import { authMiddleware } from "../middlewares/auth_middleware";
 import { getBookingLogs, insertBookingLog, updateBookingLog } from "../controllers/bookings/bookingLogController";
 import { getActiveBookings, getBookings, insertBooking, updateBooking } from "../controllers/bookings/bookingsController";
-import { get } from "http";
 
 const router = Router();
 

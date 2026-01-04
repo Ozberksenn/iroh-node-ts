@@ -1,29 +1,17 @@
 import sql from 'mssql';
 
 const dbConfig: sql.config = {
-    user : 'sa',
-    password : '1',
-    database : 'Iroh',
-    server : 'DESKTOP-9LJ7SMT',
-    options : {
-        encrypt : false,
-        trustServerCertificate : false
-    }
+  user: 'sa',
+  password: '1',
+  database: 'Iroh',
+  server: '127.0.0.1', // 🔥 LOTUS-HP1 kullanma
+  port: 1433,
+  options: {
+    encrypt: true,               // 🔥 SSMS'te ZORUNLU
+    trustServerCertificate: true // 🔥 SSMS'te işaretli
+  }
 };
 
-let pool: sql.ConnectionPool | null = null;
-
-
 export async function getDbPool() {
-    if (pool) {
-        return pool;
-    }
-    try {
-        pool = await sql.connect(dbConfig);
-        return pool;
-    } catch (error) {
-        throw error;
-    }
+  return sql.connect(dbConfig);
 }
-
-export { sql };

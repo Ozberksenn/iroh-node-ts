@@ -8,4 +8,8 @@ export interface Customer {
   mail: string;
   parentPhone: string;
   parentMail: string;
+  pageSize:number;
+  pageNumber:number;
 }
+
+
