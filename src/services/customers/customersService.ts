@@ -5,7 +5,8 @@ import { PaginatedResponse } from "../../types/paginated";
 export async function getCustomersService(
   status?: "Customer" | "Subscriber" | "ActiveSubscriber",
   page?: number,
-  size?: number
+  size?: number,
+  name?: string
 ): Promise<PaginatedResponse<Customer>> {
   const currentPage = page ?? 1;
   const currentSize = size ?? 50;
@@ -16,6 +17,7 @@ export async function getCustomersService(
     .input("status", status)
     .input("page", page)
     .input("size", size)
+    .input("name", name)
     .execute("usp_GetCustomers");
 
   // 👇 SQL'den gelen ham data
@@ -29,7 +31,9 @@ export async function getCustomersService(
     currentPage === -1 ? 1 : Math.ceil(totalSize / currentSize);
 
   // 👇 TotalCount'u item'lardan SÖKÜYORUZ
-  const items: Customer[] = rawItems.map(({ TotalCount, ...customer }) => customer);
+  const items: Customer[] = rawItems.map(
+    ({ TotalCount, ...customer }) => customer
+  );
 
   return {
     items,

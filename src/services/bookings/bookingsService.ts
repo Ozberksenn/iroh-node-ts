@@ -5,7 +5,8 @@ import { PaginatedResponse } from "../../types/paginated";
 export async function getBookingsService(
   page?: number,
   size?: number,
-  name?:string
+  name?: string,
+  mail?: string
 ): Promise<PaginatedResponse<Booking>> {
   const currentPage = page ?? 1;
   const currentSize = size ?? 20;
@@ -16,6 +17,7 @@ export async function getBookingsService(
     .input("page", page)
     .input("size", size)
     .input("name", name ?? null)
+    .input("mail", mail ?? null)
     .execute("usp_GetBookings");
 
   const recordsets = result.recordsets as any[];

@@ -12,8 +12,9 @@ export async function getBookings(req: Request, res: Response) {
   const page = Number(req.query.page ?? 1);
   const size = Number(req.query.size ?? 20);
   const name = req.query.name as string | undefined;
+  const mail = req.query.mail as string | undefined;
   try {
-    const result = await getBookingsService(page, size);
+    const result = await getBookingsService(page, size,name,mail);
 
     return res.json(successResponse(result, "success"));
   } catch (err: any) {

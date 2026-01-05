@@ -24,13 +24,14 @@ export async function getCustomers(req: Request, res: Response) {
   const status = req.query.status as CustomerStatus;
   const page = Number(req.query.page ?? 1);
   const size = Number(req.query.size ?? 20);
+  const name = req.query.name as string | undefined;
 
   if (!isCustomerStatus(status)) {
     return res.status(400).json(errorResponse("Invalid status value", "error"));
   }
 
   try {
-    const result = await getCustomersService(status, page, size);
+    const result = await getCustomersService(status, page, size,name);
 
     return res.json(successResponse(result, "success"));
   } catch (err: any) {
