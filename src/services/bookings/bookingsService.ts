@@ -1,3 +1,4 @@
+import { table } from "console";
 import { getDbPool } from "../../config/db";
 import { Booking } from "../../types/booking";
 import { PaginatedResponse } from "../../types/paginated";
@@ -20,11 +21,15 @@ export async function getBookingsService(
     .input("mail", mail ?? null)
     .execute("usp_GetBookings");
 
-  const recordsets = result.recordsets as any[];
+  const recordsets = result.recordsets as unknown as any[];
 
   const totalSize = recordsets[0]?.[0]?.TotalCount ?? 0;
 
-  const items = (recordsets[1] ?? []) as Booking[];
+  const items = (recordsets[1] ?? []).map((row: any) => ({
+    ...row,
+    table: row.table ? JSON.parse(row.table) : null,
+    customer: row.customer ? JSON.parse(row.customer) : null,
+  })) as Booking[];
 
   const totalPages =
     currentPage === -1 ? 1 : Math.ceil(totalSize / currentSize);
@@ -68,6 +73,7 @@ export async function getActiveBookingsService(): Promise<Booking[]> {
     };
   });
 }
+
 export async function insertBookingService(data: Booking): Promise<Booking> {
   const pool = await getDbPool();
   const result = await pool
