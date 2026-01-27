@@ -8,6 +8,7 @@ import cors from 'cors';
 import cookieParser from "cookie-parser";
 const app = express();
 
+// 'http://localhost:3000','http://localhost:5173'
 app.use(cors({
     origin: ['http://localhost:3000','http://localhost:5173','https://playground-management.vercel.app'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -38,7 +39,6 @@ async function connect(retries = 5, delay = 5000){
 }
 connect(); // database bağlantısı
 
-
 app.get('/', (req,res) => {
     return res.json({
         message :`Port calisti: port:${PORT}`
@@ -49,3 +49,4 @@ app.use('/' ,apiRouter);
 app.listen(PORT, '0.0.0.0',() => {
   console.log(`Server çalışıyor: ${PORT}`);
 });
+
