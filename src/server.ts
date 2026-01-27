@@ -9,12 +9,12 @@ import cookieParser from "cookie-parser";
 const app = express();
 
 app.use(cors({
-    origin: ['http://localhost:8080','http://localhost:3000','https://flangeless-cristobal-motivelessly.ngrok-free.dev','http://localhost:5173','https://playground-management.vercel.app'],
+    origin: ['http://localhost:3000','http://localhost:5173','https://playground-management.vercel.app'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization','ngrok-skip-browser-warning'],
+    allowedHeaders: ['Content-Type', 'Authorization',],
     credentials:true
   }));
-const PORT = 8080;
+const PORT = 3001;
 app.use(express.json());
 app.use(cookieParser()); // cookie refresh token için
 async function connect(retries = 5, delay = 5000){

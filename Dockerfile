@@ -1,37 +1,33 @@
-# FROM node:20-alpine AS builder
+# 1️⃣ Build stage
+FROM node:20-alpine AS builder
 
-# WORKDIR /app
+WORKDIR /app
 
-# # Copy package files
-# COPY package*.json ./
-# # Install all dependencies (including devDependencies for build)
-# RUN npm ci
+COPY package*.json ./
+RUN npm install
 
-# # Copy source code
-# COPY . .
+COPY . .
+RUN npm run build
 
-# # Build TypeScript
-# RUN npm run build
-
-# # Production stage
-# FROM node:20-alpine
-
-# WORKDIR /app
-
-# # Copy package files
-# COPY package*.json ./
-# # Install only production dependencies
-# RUN npm ci --only=production
-
-# # Copy built files from builder
-# COPY --from=builder /app/dist ./dist
-
-# EXPOSE 8080
-
-# CMD ["node", "dist/server.js"]
-
-
+# 2️⃣ Runtime stage
 FROM node:20-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install --production
+
+# SADECE derlenmiş JS'leri al
+COPY --from=builder /app/dist ./dist
+
+EXPOSE 3001
+
+CMD ["node", "dist/index.js"]
+
+
+
+
+# FROM node:20-alpine
 
 # WORKDIR /app
 
@@ -42,6 +38,6 @@ FROM node:20-alpine
 
 # RUN npm run build
 
-# EXPOSE 8080
+# EXPOSE 3001
 
 # CMD ["npm", "run", "start"]
