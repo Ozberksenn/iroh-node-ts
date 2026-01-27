@@ -1,30 +1,42 @@
-import express from 'express';
-import { getDbPool } from './config/db';
-import apiRouter from './routes'
+
 import dotenv from "dotenv";
+dotenv.config();
+import express from 'express';
+import apiRouter from './routes'
+import { getDbPool } from './config/db';
 import cors from 'cors';
 import cookieParser from "cookie-parser";
 const app = express();
+
 app.use(cors({
-    origin: ['https://fedf697c8201.ngrok-free.app','http://localhost:8080','http://localhost:5173'],
+    origin: ['http://localhost:8080','http://localhost:3000','https://flangeless-cristobal-motivelessly.ngrok-free.dev','http://localhost:5173','https://playground-management.vercel.app'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization','ngrok-skip-browser-warning']
+    allowedHeaders: ['Content-Type', 'Authorization','ngrok-skip-browser-warning'],
+    credentials:true
   }));
 const PORT = 8080;
 app.use(express.json());
 app.use(cookieParser()); // cookie refresh token için
-dotenv.config();
-async function connect(){
- try {
-        await getDbPool();
-        console.log('Database bağlandı.');
-    } catch (error) {
-        console.error(error);
-        process.exit(1); 
+async function connect(retries = 5, delay = 5000){
+    for (let i = 0; i < retries; i++) {
+        try {
+            await getDbPool();
+            console.log('Database bağlandı.');
+            return;
+        } catch (error) {
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            console.error(`Database bağlantı hatası (deneme ${i + 1}/${retries}):`, errorMessage);
+            if (i < retries - 1) {
+                console.log(`${delay/1000} saniye sonra tekrar denenecek...`);
+                await new Promise(resolve => setTimeout(resolve, delay));
+            } else {
+                console.error('Database bağlantısı başarısız oldu. Uygulama kapatılıyor...');
+                process.exit(1);
+            }
+        }
     }
 }
 connect(); // database bağlantısı
-
 
 
 app.get('/', (req,res) => {
@@ -32,7 +44,8 @@ app.get('/', (req,res) => {
         message :`Port calisti: port:${PORT}`
     })
 });
-app.use('/', apiRouter);
-app.listen(PORT, () => {
+
+app.use('/' ,apiRouter);
+app.listen(PORT, '0.0.0.0',() => {
   console.log(`Server çalışıyor: ${PORT}`);
 });

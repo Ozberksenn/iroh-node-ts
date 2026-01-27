@@ -4,8 +4,8 @@ import { loginService,createUserService,refreshTokenService, updatePasswordServi
 
 export async function login(req: Request, res: Response) {
     try {
-        const result = await loginService(req,res);
-        res.json(successResponse(result,'success'))
+        await loginService(req,res);
+        // res.json(successResponse(result,'success'))
     } catch (err: any) {
         res.status(500).json(errorResponse(err.message, "error"));
     }

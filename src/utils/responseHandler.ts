@@ -1,3 +1,5 @@
+import camelcaseKeys from "camelcase-keys";
+
 interface ApiResponse<T> {
     success: boolean;
     data?: T;
@@ -8,7 +10,7 @@ interface ApiResponse<T> {
 export function successResponse<T>(data: T, message?: string): ApiResponse<T> {
     return {
         success: true,
-        data,
+        data : camelcaseKeys(data as any, { deep: true }),
         message
     };
 }

@@ -1,38 +1,25 @@
-import { getDbPool } from "../../config/db";
+import { getDbPool, pool } from "../../config/db";
 import { Table } from "../../types/table";
 
-
-export async function getTablesService(): Promise<Table[]>{
-    const pool = await getDbPool();
-    const result = await pool.request().query('SELECT * FROM vw_Tables');
-    return result.recordset as Table[];
+export async function getTablesService(): Promise<Table[]> {
+  const { rows } = await pool.query("SELECT * FROM vw_tables");
+  return rows as Table[];
 }
 
 export async function insertTableService(data: Table): Promise<Table> {
-  const pool = await getDbPool();
-  const result = await pool
-    .request()
-    .input("name", data.name)
-    .execute('usp_InsertTable');
-  return result.recordset[0];
+  const { rows } = await pool.query("CALL usp_insert_table($1)", [data.name]);
+  return rows[0] as Table;
 }
 
-
 export async function updateTableService(data: Table): Promise<Table> {
-  const pool = await getDbPool();
-  const result = await pool
-    .request()
-    .input("id", data.id)
-    .input("name", data.name)
-    .execute('usp_UpdateTable');
-  return result.recordset[0];
+  const { rows } = await pool.query("CALL usp_update_table($1,$2)", [
+    data.id,
+    data.name,
+  ]);
+  return rows[0] as Table;
 }
 
 export async function deleteTableService(data: Table): Promise<Table> {
-  const pool = await getDbPool();
-  const result = await pool
-    .request()
-    .input("id", data.id)
-    .execute('usp_DeleteTable');
-  return result.recordset[0];
+  const { rows } = await pool.query("CALL usp_delete_table($1)", [data.id]);
+  return rows[0];
 }

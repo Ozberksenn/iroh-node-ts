@@ -14,7 +14,7 @@ export async function getBookings(req: Request, res: Response) {
   const name = req.query.name as string | undefined;
   const mail = req.query.mail as string | undefined;
   try {
-    const result = await getBookingsService(page, size,name,mail);
+    const result = await getBookingsService(page, size, name, mail);
 
     return res.json(successResponse(result, "success"));
   } catch (err: any) {

@@ -17,7 +17,7 @@ export async function getCustomers(req: Request, res: Response) {
 
   function isCustomerStatus(value: any): value is CustomerStatus {
     return ["Customer", "Subscriber", "ActiveSubscriber", undefined].includes(
-      value
+      value,
     );
   }
 
@@ -31,8 +31,7 @@ export async function getCustomers(req: Request, res: Response) {
   }
 
   try {
-    const result = await getCustomersService(status, page, size,name);
-
+    const result = await getCustomersService(status, page, size, name);
     return res.json(successResponse(result, "success"));
   } catch (err: any) {
     return res.status(500).json(errorResponse(err.message, "error"));
@@ -42,9 +41,7 @@ export async function getCustomers(req: Request, res: Response) {
 export async function insertCustomer(req: Request, res: Response) {
   try {
     const data: Customer = req.body;
-
     const result = await insertCustomerService(data);
-
     res.json(successResponse(result, "success"));
   } catch (err: any) {
     res.status(500).json(errorResponse(err.message, "error"));

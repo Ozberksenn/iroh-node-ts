@@ -1,5 +1,4 @@
-import { table } from "console";
-import { getDbPool } from "../../config/db";
+import { pool } from "../../config/db";
 import { Booking } from "../../types/booking";
 import { PaginatedResponse } from "../../types/paginated";
 
@@ -7,49 +6,52 @@ export async function getBookingsService(
   page?: number,
   size?: number,
   name?: string,
-  mail?: string
+  mail?: string,
 ): Promise<PaginatedResponse<Booking>> {
   const currentPage = page ?? 1;
   const currentSize = size ?? 20;
 
-  const pool = await getDbPool();
-  const result = await pool
-    .request()
-    .input("page", page)
-    .input("size", size)
-    .input("name", name ?? null)
-    .input("mail", mail ?? null)
-    .execute("usp_GetBookings");
+  const { rows } = await pool.query(
+    `
+    SELECT *
+    FROM usp_get_bookings(
+      $1,
+      $2,
+      $3,
+      $4
+    )
+    `,
+    [currentPage, currentSize, name ?? null, mail ?? null],
+  );
 
-  const recordsets = result.recordsets as unknown as any[];
+  const totalSize = rows.length > 0 ? Number(rows[0].totalCount) : 0;
 
-  const totalSize = recordsets[0]?.[0]?.TotalCount ?? 0;
+  const items = rows.map((row: any) => {
+    const { totalCount, ...booking } = row;
 
-  const items = (recordsets[1] ?? []).map((row: any) => ({
-    ...row,
-    table: row.table ? JSON.parse(row.table) : null,
-    customer: row.customer ? JSON.parse(row.customer) : null,
-  })) as Booking[];
+    return {
+      ...booking,
+      table: booking.table ?? null,
+      customer: booking.customer ?? null,
+    };
+  }) as Booking[];
 
   const totalPages =
     currentPage === -1 ? 1 : Math.ceil(totalSize / currentSize);
 
-  const response = {
+  return {
     items,
     page: currentPage,
     size: currentSize,
-    totalPages: totalPages,
+    totalPages,
     totalSize,
   };
-
-  return response;
 }
 
 export async function getActiveBookingsService(): Promise<Booking[]> {
-  const pool = await getDbPool();
-  const result = await pool.request().query("SELECT * FROM vw_ActiveBookings");
+  const { rows } = await pool.query(`SELECT * FROM vw_activebookings`);
 
-  return result.recordset.map((r) => {
+  return rows.map((r) => {
     const table = typeof r.table === "string" ? JSON.parse(r.table) : r.table;
 
     const customer =
@@ -75,33 +77,39 @@ export async function getActiveBookingsService(): Promise<Booking[]> {
 }
 
 export async function insertBookingService(data: Booking): Promise<Booking> {
-  const pool = await getDbPool();
-  const result = await pool
-    .request()
-    .input("tableId", data.tableId)
-    .input("startTime", data.startTime)
-    .input("endTime", data.endTime)
-    .input("status", data.status)
-    .input("price", data.price)
-    .input("customerId", data.customerId)
-    .input("note", data.note)
-    .execute("usp_InsertBooking");
-  return result.recordset[0];
+  const { rows } = await pool.query(
+    "SELECT * FROM fn_insert_booking($1,$2,$3,$4,$5,$6,$7)",
+    [
+      data.tableId,
+      data.startTime,
+      data.endTime,
+      data.status,
+      data.price,
+      data.customerId,
+      data.note,
+    ],
+  );
+  if (rows.length === 0) {
+    throw new Error("Booking insert failed");
+  }
+
+  return rows[0];
 }
 
 export async function updateBookingService(data: Booking): Promise<Booking> {
-  const pool = await getDbPool();
-  const result = await pool
-    .request()
-    .input("id", data.id)
-    .input("tableId", data.tableId)
-    .input("startTime", data.startTime)
-    .input("endTime", data.endTime)
-    .input("status", data.status)
-    .input("price", data.price)
-    .input("customerId", data.customerId)
-    .input("note", data.note)
-    .input("purchaseId", data.purchaseId)
-    .execute("usp_UpdateBooking");
-  return result.recordset[0];
+  const { rows } = await pool.query(
+    "CALL usp_update_booking($1,$2,$3,$4,$5,$6,$7,$8,$9)",
+    [
+      data.id,
+      data.tableId,
+      data.customerId,
+      data.startTime,
+      data.endTime,
+      data.status,
+      data.price,
+      data.note,
+      data.purchaseId,
+    ],
+  );
+  return rows[0];
 }
