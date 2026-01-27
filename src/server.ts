@@ -99,7 +99,7 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials:true
   }));
-const PORT = 8080;
+const PORT = 3001;
 app.use(express.json());
 app.use(cookieParser()); // cookie refresh token için
 async function connect(retries = 5, delay = 5000){
