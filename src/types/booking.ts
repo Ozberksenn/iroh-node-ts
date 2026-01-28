@@ -8,8 +8,9 @@ export interface Booking {
   customerId?: number;
   note?: string;
   purchaseId?:number;
+  subscriptionStartTime?:Date;
+  subscriptionEndTime?:Date;
 }
-
 
 export interface BookingLog {
   id: number;

@@ -98,7 +98,7 @@ export async function insertBookingService(data: Booking): Promise<Booking> {
 
 export async function updateBookingService(data: Booking): Promise<Booking> {
   const { rows } = await pool.query(
-    "CALL usp_update_booking($1,$2,$3,$4,$5,$6,$7,$8,$9)",
+    "CALL usp_update_booking($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)",
     [
       data.id,
       data.tableId,
@@ -109,6 +109,8 @@ export async function updateBookingService(data: Booking): Promise<Booking> {
       data.price,
       data.note,
       data.purchaseId,
+      data.subscriptionStartTime,
+      data.subscriptionEndTime
     ],
   );
   return rows[0];
