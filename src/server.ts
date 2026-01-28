@@ -138,7 +138,7 @@ async function connect(retries = 5, delay = 5000){
         }
     }
 }
-connect(); // database bağlantısı
+connect();
 
 
 app.get('/', (req,res) => {
