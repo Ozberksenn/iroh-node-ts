@@ -1,5 +1,4 @@
 import { Router } from "express";
-// import usersRouter from "./users";
 import authRouters from './auth';
 import customersRouters from './customers'
 import tablesRouters from './tables'
@@ -10,7 +9,6 @@ import purchasePayment from './purchasePayment'
  
 const router = Router();
 
-// router.use('/users', usersRouter);
 router.use('/', authRouters);
 router.use('/', bookingsRouters);
 router.use('/', customersRouters);
